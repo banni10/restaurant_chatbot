@@ -1131,6 +1131,7 @@ elif section == "Training":
                 process = subprocess.Popen(
                     ['python', 'train.py'], stdout=subprocess.PIPE, universal_newlines=True)
                 for line in process.stdout:
+                    st.write(line)
                     if 'Epoch' in line:
                         progress = line.strip().split()[-1]
                         # st.write(progress)
