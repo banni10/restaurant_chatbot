@@ -16,8 +16,8 @@ from datetime import datetime, date
 import time
 import subprocess
 
-# nltk.download('punkt')
-# nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 def clean_up_sentence(sentence):
