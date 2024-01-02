@@ -579,7 +579,7 @@ elif section == "Lemmatization":
     st.markdown(
         '<div class="center"><h3>Lemmatization</h3></div>', unsafe_allow_html=True)
     st.markdown("""<div class="body-text"><p>You know how words can sometimes change a bit when we talk about different things? Like 'walk' becomes 'walking' or 'walked'? Lemmatization is a bit like finding the main, original word. </p>
-    <p>So, if we have 'walking,' 'walked,' and 'walks,' lemmatization helps us figure out that they all come from the word 'walk.' It's like finding the boss word that connects all these different versions together. </p>
+    <p>So, if we have 'running,' 'ran,' and 'run,' lemmatization helps us figure out that they all come from the word 'run.' It's like finding the boss word that connects all these different versions together. </p>
     <p>It helps us understand words better and put them in order, making it easier for computers to understand too! Lemmatization is like finding the main word among different forms of the same word. </p>
     <p>Here is a small exercise for you to understand lemmatization. </p></div>""", unsafe_allow_html=True)
 
