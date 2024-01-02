@@ -785,7 +785,7 @@ elif section == "Bag of Words - 2":
             check_john_button = st.button('Check for "John"')
         with col2:
             if check_john_button:
-                if john == '1':
+                if john == 1:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
