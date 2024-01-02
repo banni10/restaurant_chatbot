@@ -797,7 +797,7 @@ elif section == "Bag of Words - 2":
             check_likes_button = st.button('Check for "likes"')
         with col2:
             if check_likes_button:
-                if likes == '3':
+                if likes == 3:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -809,7 +809,7 @@ elif section == "Bag of Words - 2":
             check_to_button = st.button('Check for "to"')
         with col2:
             if check_to_button:
-                if to == '2':
+                if to == 2:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -821,7 +821,7 @@ elif section == "Bag of Words - 2":
             check_watch_button = st.button('Check for "watch"')
         with col2:
             if check_watch_button:
-                if watch == '2':
+                if watch == 2:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -833,7 +833,7 @@ elif section == "Bag of Words - 2":
             check_football_button = st.button('Check for "football"')
         with col2:
             if check_football_button:
-                if football == '1':
+                if football == 1:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -854,7 +854,7 @@ elif section == "Bag of Words - 2":
             check_mary_button = st.button('Check for "Mary"')
         with col2:
             if check_mary_button:
-                if mary == '2':
+                if mary == 2:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -866,7 +866,7 @@ elif section == "Bag of Words - 2":
             check_movies_button = st.button('Check for "movies"')
         with col2:
             if check_movies_button:
-                if movies == '2':
+                if movies == 2:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -878,7 +878,7 @@ elif section == "Bag of Words - 2":
             check_too_button = st.button('Check for "too"')
         with col2:
             if check_too_button:
-                if too == '1':
+                if too == 1:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -890,7 +890,7 @@ elif section == "Bag of Words - 2":
             check_also_button = st.button('Check for "also"')
         with col2:
             if check_also_button:
-                if also == '1':
+                if also == 1:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -902,7 +902,7 @@ elif section == "Bag of Words - 2":
             check_games_button = st.button('Check for "games"')
         with col2:
             if check_games_button:
-                if games == '1':
+                if games == 1:
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
