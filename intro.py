@@ -1128,16 +1128,20 @@ elif section == "Training":
                         unsafe_allow_html=True)
 
             def run_training():
-                process = subprocess.Popen(
-                    ['python', 'train.py'], stdout=subprocess.PIPE, universal_newlines=True)
-                for line in process.stdout:
-                    st.write(line)
-                    if 'Epoch' in line:
-                        progress = line.strip().split()[-1]
-                        # st.write(progress)
-                        numerator, denominator = map(
-                            float, progress.split('/'))
-                        progress_bar.progress(numerator / denominator)
+                try:
+                    process = subprocess.Popen(
+                        ['python', 'train.py'], stdout=subprocess.PIPE, universal_newlines=True)
+                    for line in process.stdout:
+                        st.write(line)
+                        if 'Epoch' in line:
+                            progress = line.strip().split()[-1]
+                            # st.write(progress)
+                            numerator, denominator = map(
+                                float, progress.split('/'))
+                            progress_bar.progress(numerator / denominator)
+                except Exception as e:
+                    st.error(f"An error occurred: {e}")
+                    
 
             if st.button("Train Model"):
                 st.write("Training in progress...")
