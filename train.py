@@ -14,37 +14,6 @@ from tensorflow.keras.layers import Dense, Activation, Dropout
 from tensorflow.keras.optimizers import SGD
 
 lemmatizer = WordNetLemmatizer()
-if st.button("Visualize Data"):
-        # Load intents from the JSON file
-        with open('intents1.json', 'r') as file:
-            data = json.load(file)
-        # Extracting the intents
-        intents = data["indian_restaurant"]
-
-        # Creating lists for tags, patterns, and responses
-        tags = []
-        patterns = []
-        responses = []
-
-        # Extracting data from JSON
-        for intent in intents:
-            tags.append(intent["tag"])
-            # Convert list of patterns to comma-separated string
-            # Keep the list of patterns as is
-            patterns.append(intent["patterns"])
-            # Keep the list of responses as is
-            responses.append(intent["responses"])
-
-        # Creating a DataFrame from the extracted data
-        df = pd.DataFrame({
-            "Tag": tags,
-            "Patterns": patterns,
-            "Responses": responses
-        })
-
-        # Displaying the DataFrame as a table using Streamlit
-        st.write(df, use_container_width=True)
-
 
 # intents = json.loads(open('intents1.json').read())
 with open('intents1.json', 'r') as file:
