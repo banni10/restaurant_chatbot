@@ -14,10 +14,17 @@ from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
 from datetime import datetime, date
 import time
-import subprocess
+from tqdm import tqdm
+import sys
+import os
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Activation, Dropout
+from tensorflow.keras.optimizers import SGD
+# import subprocess
+lemmatizer = WordNetLemmatizer()
 
-nltk.download('punkt')
-nltk.download('wordnet')
+# nltk.download('punkt')
+# nltk.download('wordnet')
 
 
 def clean_up_sentence(sentence):
@@ -579,7 +586,7 @@ elif section == "Lemmatization":
     st.markdown(
         '<div class="center"><h3>Lemmatization</h3></div>', unsafe_allow_html=True)
     st.markdown("""<div class="body-text"><p>You know how words can sometimes change a bit when we talk about different things? Like 'walk' becomes 'walking' or 'walked'? Lemmatization is a bit like finding the main, original word. </p>
-    <p>So, if we have 'running', 'ran', and 'run', lemmatization helps us figure out that they all come from the word 'run'. It's like finding the boss word that connects all these different versions together. </p>
+    <p>So, if we have 'walking,' 'walked,' and 'walks,' lemmatization helps us figure out that they all come from the word 'walk.' It's like finding the boss word that connects all these different versions together. </p>
     <p>It helps us understand words better and put them in order, making it easier for computers to understand too! Lemmatization is like finding the main word among different forms of the same word. </p>
     <p>Here is a small exercise for you to understand lemmatization. </p></div>""", unsafe_allow_html=True)
 
@@ -785,7 +792,7 @@ elif section == "Bag of Words - 2":
             check_john_button = st.button('Check for "John"')
         with col2:
             if check_john_button:
-                if john == 1:
+                if john == '1':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -797,7 +804,7 @@ elif section == "Bag of Words - 2":
             check_likes_button = st.button('Check for "likes"')
         with col2:
             if check_likes_button:
-                if likes == 3:
+                if likes == '3':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -809,7 +816,7 @@ elif section == "Bag of Words - 2":
             check_to_button = st.button('Check for "to"')
         with col2:
             if check_to_button:
-                if to == 2:
+                if to == '2':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -821,7 +828,7 @@ elif section == "Bag of Words - 2":
             check_watch_button = st.button('Check for "watch"')
         with col2:
             if check_watch_button:
-                if watch == 2:
+                if watch == '2':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -833,7 +840,7 @@ elif section == "Bag of Words - 2":
             check_football_button = st.button('Check for "football"')
         with col2:
             if check_football_button:
-                if football == 1:
+                if football == '1':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -854,7 +861,7 @@ elif section == "Bag of Words - 2":
             check_mary_button = st.button('Check for "Mary"')
         with col2:
             if check_mary_button:
-                if mary == 2:
+                if mary == '2':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -866,7 +873,7 @@ elif section == "Bag of Words - 2":
             check_movies_button = st.button('Check for "movies"')
         with col2:
             if check_movies_button:
-                if movies == 2:
+                if movies == '2':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -878,7 +885,7 @@ elif section == "Bag of Words - 2":
             check_too_button = st.button('Check for "too"')
         with col2:
             if check_too_button:
-                if too == 1:
+                if too == '1':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -890,7 +897,7 @@ elif section == "Bag of Words - 2":
             check_also_button = st.button('Check for "also"')
         with col2:
             if check_also_button:
-                if also == 1:
+                if also == '1':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -902,7 +909,7 @@ elif section == "Bag of Words - 2":
             check_games_button = st.button('Check for "games"')
         with col2:
             if check_games_button:
-                if games == 1:
+                if games == '1':
                     image1 = Image.open(
                         'media/correct.png').resize((30, 30))
                     st.image(image1, caption='')
@@ -1127,28 +1134,109 @@ elif section == "Training":
             st.markdown("""<div class="body-text"><p>These BOWs along with the tag is fed to the model for training. The model learns about the data and whenever a similar question or pattern is asked it recognizes the tag. It randomly picks one response from all of the responses associated with the tag as the answer from chatbot.</p> </div>""",
                         unsafe_allow_html=True)
 
-            def run_training():
-                try:
-                    process = subprocess.Popen(
-                        ['python', 'train.py'], stdout=subprocess.PIPE, universal_newlines=True)
-                    for line in process.stdout:
-                        st.write(line)
-                        if 'Epoch' in line:
-                            progress = line.strip().split()[-1]
-                            # st.write(progress)
-                            numerator, denominator = map(
-                                float, progress.split('/'))
-                            progress_bar.progress(numerator / denominator)
-                except Exception as e:
-                    st.error(f"An error occurred: {e}")
-                    
+            def run_training(progress_bar):
+                intents = json.loads(open('intents1.json').read())
+
+                words = []
+                classes = []
+                documents = []
+                ignore_letters = ['?', '!', ',', '.']
+
+                for intent in intents['indian_restaurant']:
+                    for pattern in intent['patterns']:
+                        word_list = nltk.word_tokenize(pattern)
+                        words.extend(word_list)
+                        documents.append((word_list, intent['tag']))
+                        if intent['tag'] not in classes:
+                            classes.append(intent['tag'])
+
+                words = [lemmatizer.lemmatize(word)
+                         for word in words if word not in ignore_letters]
+                words = sorted(set(words))
+
+                classes = sorted(set(classes))
+
+                pickle.dump(words, open('words.pkl', 'wb'))
+                pickle.dump(classes, open('classes.pkl', 'wb'))
+
+                training = []
+                output_empty = [0] * len(classes)
+
+                for document in documents:
+                    bag = []
+                    word_patterns = document[0]
+                    word_patterns = [lemmatizer.lemmatize(
+                        word.lower()) for word in word_patterns]
+                    bag.extend(
+                        [1 if word in word_patterns else 0 for word in words])
+                    # for word in words:
+                    #     bag.append(
+                    #         1) if word in word_patterns else bag.append(0)
+
+                    output_row = list(output_empty)
+                    output_row[classes.index(document[1])] = 1
+                    training.append([bag, output_row])
+
+                random.shuffle(training)
+                # training = np.array(training)
+                train_x = np.array([i[0] for i in training])
+                train_y = np.array([i[1] for i in training])
+                # train_x = list(training[:, 0])
+                # train_y = list(training[:, 1])
+
+                model = Sequential()
+                model.add(Dense(128, input_shape=(
+                    len(train_x[0]),), activation='relu'))
+                model.add(Dropout(0.5))
+                model.add(Dense(64, activation='relu'))
+                model.add(Dropout(0.5))
+                model.add(Dense(len(train_y[0]), activation='softmax'))
+
+                # sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+                sgd = SGD(learning_rate=0.01, momentum=0.9, nesterov=True)
+                model.compile(loss='categorical_crossentropy',
+                              optimizer=sgd, metrics=['accuracy'])
+                hist = model.fit(train_x, train_y,
+                                 epochs=200, batch_size=5, verbose=0)
+                # model.save('chatbotmodel.h5', hist)
+
+                epochs = 200
+                total_iterations = epochs * len(train_x) // 5  # batch_size = 5
+                iteration = 0
+                for epoch in range(epochs):
+                    for i in tqdm(range(0, len(train_x), 5), desc=f"Epoch {epoch+1}/{epochs}", unit=" batch", leave=False):
+                        batch_x = train_x[i:i+5]
+                        batch_y = train_y[i:i+5]
+
+                        hist = model.train_on_batch(batch_x, batch_y)
+                        iteration += 1
+                        progress = iteration / total_iterations
+                        progress_bar.progress(min(progress, 1.0))
+                model.save('chatbotmodel.h5', hist)
+                # return True
+                # print('Done')
+                # process = subprocess.Popen(
+                #     ['python', 'train.py'], stdout=subprocess.PIPE, universal_newlines=True)
+                # for line in process.stdout:
+                #     if 'Epoch' in line:
+                #         progress = line.strip().split()[-1]
+                #         # st.write(progress)
+                #         numerator, denominator = map(
+                #             float, progress.split('/'))
+                #         progress_bar.progress(numerator / denominator)
 
             if st.button("Train Model"):
                 st.write("Training in progress...")
                 progress_bar = st.progress(0)
-                run_training()
+                run_training(progress_bar)
                 # progress_bar.empty()
                 st.success("Training completed!")
+            #     st.session_state.output = run_training(
+            #         progress_bar)  # Capture the result
+            #     st.rerun()
+            # if 'output' in st.session_state:
+            #     st.success("Training completed!")
+
 
 elif section == "Test Your Model!":
     st.markdown("""<div class="center"><h1>Test Your Model!</h1></div>""",
