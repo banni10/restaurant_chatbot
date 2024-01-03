@@ -1135,14 +1135,14 @@ elif section == "Training":
                         unsafe_allow_html=True)
 
             def run_training(progress_bar):
-                intents = json.loads(open('intents1.json').read())
+                # intents = json.loads(open('intents1.json').read())
 
                 words = []
                 classes = []
                 documents = []
                 ignore_letters = ['?', '!', ',', '.']
 
-                for intent in intents['indian_restaurant']:
+                for intent in intents:
                     for pattern in intent['patterns']:
                         word_list = nltk.word_tokenize(pattern)
                         words.extend(word_list)
