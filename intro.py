@@ -23,8 +23,8 @@ from tensorflow.keras.optimizers import SGD
 # import subprocess
 lemmatizer = WordNetLemmatizer()
 
-# nltk.download('punkt')
-# nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 def clean_up_sentence(sentence):
