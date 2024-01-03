@@ -1135,7 +1135,7 @@ elif section == "Training":
                         unsafe_allow_html=True)
 
             def run_training(progress_bar):
-                st.success("Correct: All words match!")
+                # st.success("Correct: All words match!")
                 # intents = json.loads(open('intents1.json').read())
 
                 words = []
